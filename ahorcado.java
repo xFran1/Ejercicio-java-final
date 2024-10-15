@@ -7,7 +7,6 @@ public class ahorcado {
         String palabras = "hormiga babuino tejon murcielago oso castor camello gato almeja cobra pantera coyote cuervo ciervo perro burro pato aguila huron zorro rana cabra ganso halcon leon lagarto llama topo mono alce raton mula salamandra nutria buho panda loro paloma piton conejo carnero rata cuervo rinoceronte salmon foca tiburon oveja mofeta perezoso serpiente araña cigüeña cisne tigre sapo trucha pavo tortuga comadreja ballena lobo wombat cebra";
         String[] palabra = palabras.split(" ");
         int random = (int) (Math.random() * palabra.length);
-        System.out.println(random);
         String palabra_seleccionada = palabra[random];
         ArrayList<String> array_letras = new ArrayList<>(); // Son las letras que ya han sido introducidas
 
