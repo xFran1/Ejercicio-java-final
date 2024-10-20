@@ -1,75 +1,83 @@
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.Period;
-
 public class main {
     public static void main(String[] args) {
 
-        // LocalDateTime fecha = LocalDateTime.now();
-        // System.out.println(fecha);
-        // delaySegundo();
-        // delaySegundo();
+    }
+}
 
-        // delayMilisegundo();
-        // delayMilisegundo();
-        // delayMilisegundo();
-        // delayMilisegundo();
+enum Sexo {
+    hombre, mujer
+}
 
-        // LocalDateTime fecha2 = LocalDateTime.now();
-        // System.out.println(fecha2);
+class Jugador extends Juego {
 
-        // Period period = getPeriod(fecha, fecha2);
+    private String nombre;
+    private int edad;
+    private Sexo sexo;
 
-        // double time[] = getTime(fecha, fecha2);
-
-        // System.out.println(time[2] + " segundo");
-        // System.out.println(time[3] + " milisegundos");
-
+    public Jugador(int numero_veces_jugadas_jugador, int numero_veces_ganadas, int numero_veces_perdidas, String nombre,
+            int edad, Sexo sexo) {
+        super(numero_veces_jugadas_jugador, numero_veces_ganadas, numero_veces_perdidas);
+        this.nombre = nombre;
+        this.edad = edad;
+        this.sexo = sexo;
     }
 
-    private static void delayMilisegundo() {
-
-        try {
-            Thread.sleep(100);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-    }
-
-    private static void delaySegundo() {
-
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-    }
-
-    private static Period getPeriod(LocalDateTime dob, LocalDateTime now) {
-        return Period.between(dob.toLocalDate(), now.toLocalDate());
-    }
-
-    private static double[] getTime(LocalDateTime dob, LocalDateTime now) {
-        Duration duration = Duration.between(dob, now);
-
-        double seconds = duration.getSeconds();
-
-        double ms = duration.getNano() / 100000000;
-        double hours = seconds / 3600;
-        double minutes = ((seconds % 3600) / 60);
-        double secs = (seconds % 60);
-
-        return new double[] { hours, minutes, secs, ms };
+    @Override
+    public String toString() {
+        return super.toString() + "Jugador [nombre=" + nombre + ", edad=" + edad + "]";
     }
 
 }
 
-class Jugador {
-    private LocalDateTime fecha_inicio;
-    private LocalDateTime fecha_final;
-    private String nombre_usuario;
-    private String dinero;
+class Juego {
+    private static int numero_veces_jugadas_global;
+
+    private int numero_veces_jugadas_jugador;
+    private int numero_veces_ganadas;
+    private int numero_veces_perdidas;
+
+    public Juego(int numero_veces_jugadas_jugador, int numero_veces_ganadas, int numero_veces_perdidas) {
+        this.numero_veces_jugadas_jugador = numero_veces_jugadas_jugador;
+        this.numero_veces_ganadas = numero_veces_ganadas;
+        this.numero_veces_perdidas = numero_veces_perdidas;
+    }
+
+    @Override
+    public String toString() {
+        return "Juego [numero_veces_jugadas_jugador=" + numero_veces_jugadas_jugador + ", numero_veces_ganadas="
+                + numero_veces_ganadas + ", numero_veces_perdidas=" + numero_veces_perdidas + "]";
+    }
+
+    public static int getNumero_veces_jugadas_global() {
+        return numero_veces_jugadas_global;
+    }
+
+    public static void setNumero_veces_jugadas_global(int numero_veces_jugadas_global) {
+        Juego.numero_veces_jugadas_global = numero_veces_jugadas_global;
+    }
+
+    public int getNumero_veces_jugadas_jugador() {
+        return numero_veces_jugadas_jugador;
+    }
+
+    public void setNumero_veces_jugadas_jugador(int numero_veces_jugadas_jugador) {
+        this.numero_veces_jugadas_jugador = numero_veces_jugadas_jugador;
+    }
+
+    public int getNumero_veces_ganadas() {
+        return numero_veces_ganadas;
+    }
+
+    public void setNumero_veces_ganadas(int numero_veces_ganadas) {
+        this.numero_veces_ganadas = numero_veces_ganadas;
+    }
+
+    public int getNumero_veces_perdidas() {
+        return numero_veces_perdidas;
+    }
+
+    public void setNumero_veces_perdidas(int numero_veces_perdidas) {
+        this.numero_veces_perdidas = numero_veces_perdidas;
+    }
 
 }
