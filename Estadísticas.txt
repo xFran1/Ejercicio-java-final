@@ -1,0 +1,18 @@
+
+
+Fecha: 22-10-2024 13:59:03
+Jugador [nombre=Pepe, edad=21, numero_veces_jugadas_jugador=5, numero_veces_ganadas=5, numero_veces_perdidas=0]
+Jugador [nombre=Fran, edad=20, numero_veces_jugadas_jugador=4, numero_veces_ganadas=3, numero_veces_perdidas=1]
+Jugador [nombre=Juan, edad=24, numero_veces_jugadas_jugador=2, numero_veces_ganadas=2, numero_veces_perdidas=0]
+Jugador [nombre=Antonio, edad=18, numero_veces_jugadas_jugador=1, numero_veces_ganadas=1, numero_veces_perdidas=0]
+Jugador [nombre=Javier, edad=18, numero_veces_jugadas_jugador=1, numero_veces_ganadas=1, numero_veces_perdidas=0]
+=======================================================
+
+
+Fecha: 22-10-2024 13:59:22
+Jugador [nombre=Antonio, edad=18, numero_veces_jugadas_jugador=1, numero_veces_ganadas=1, numero_veces_perdidas=0]
+Jugador [nombre=Fran, edad=20, numero_veces_jugadas_jugador=4, numero_veces_ganadas=3, numero_veces_perdidas=1]
+Jugador [nombre=Javier, edad=18, numero_veces_jugadas_jugador=1, numero_veces_ganadas=1, numero_veces_perdidas=0]
+Jugador [nombre=Juan, edad=24, numero_veces_jugadas_jugador=2, numero_veces_ganadas=2, numero_veces_perdidas=0]
+Jugador [nombre=Pepe, edad=21, numero_veces_jugadas_jugador=5, numero_veces_ganadas=5, numero_veces_perdidas=0]
+=======================================================

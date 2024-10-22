@@ -1,5 +1,13 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ahorcado {
     public static void main(String[] args) throws InterruptedException {
@@ -16,22 +24,55 @@ public class ahorcado {
         System.out.println("======================================");
         Thread.sleep(1000);
         boolean salir = false;
+        try {
+            BufferedWriter b1 = new BufferedWriter(new FileWriter("Estadísticas.txt"));
+            b1.write("");
+            b1.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+
+        }
 
         ArrayList<Jugador> array_jugadores = new ArrayList<>();
+        // Prueba
+        Jugador jugador1 = new Jugador(0, 0, 0, "Fran", 20, Sexo.hombre);
+        Jugador jugador2 = new Jugador(0, 0, 0, "Pepe", 21, Sexo.hombre);
+        Jugador jugador3 = new Jugador(0, 0, 0, "Juan", 24, Sexo.hombre);
+        Jugador jugador4 = new Jugador(0, 0, 0, "Antonio", 18, Sexo.hombre);
+
+        jugador1.ganar_partida();
+        jugador1.ganar_partida();
+        jugador1.ganar_partida();
+        jugador1.perder_partida();
+        jugador2.ganar_partida();
+        jugador2.ganar_partida();
+        jugador2.ganar_partida();
+        jugador2.ganar_partida();
+        jugador2.ganar_partida();
+        jugador3.ganar_partida();
+        jugador3.ganar_partida();
+        jugador4.ganar_partida();
+        array_jugadores.add(jugador1);
+        array_jugadores.add(jugador2);
+        array_jugadores.add(jugador3);
+        array_jugadores.add(jugador4);
+
+        // ------
         String nombre = "";
 
         boolean usuario_creado = false;
         do {
             int random = (int) (Math.random() * palabra.length);
-            String palabra_seleccionada = palabra[1]; // Cambiar a random
+            String palabra_seleccionada = palabra[1];
             array_letras.clear();
             boolean jugado = false;
 
             System.out.println("1.Crear usuario 2.Ver estadísticas 3.Salir 4.Volver a jugar");
-            int n = s.nextInt();
+            int opcion = s.nextInt();
 
-            if (n == 4) {
+            if (opcion == 4) {
                 if (usuario_creado) {
+
                     System.out.println("Entrando al juego...");
 
                     Thread.sleep(1000);
@@ -55,7 +96,7 @@ public class ahorcado {
                             valido = true;
 
                             boolean input_valido = false;
-                            n = 0;
+                            int n = 0;
                             while (!input_valido) {
 
                                 try { // Con esto consigo de que al usuario no le de error cuando se equivoque
@@ -77,39 +118,50 @@ public class ahorcado {
                             if (n == 1) {
                                 System.out.println("Letra:");
                                 letra = s.next();
-
+                                letra = letra.charAt(0) + "";
+                                letra = letra.toLowerCase();
+                                if (letra.length() > 1) { // En caso de introducir mas de una letra debera volver a
+                                                          // intertarlo
+                                    System.out.println("Hemos cogido la primera letra de la frase");
+                                }
                                 if (letras_abecedario.contains(letra)) {
-                                    if (letra.length() > 1) { // En caso de introducir mas de una letra debera volver a
-                                                              // intertarlo
-                                        valido = false;
-                                        System.out.println("Debe de introducir una letra");
-                                    }
+
                                     if (array_letras.contains(letra)) { // En caso de repetir letras
                                         valido = false;
                                         System.out.println("No se puede repetir letras");
+                                    } else {
+                                        array_letras.add(letra);
+
                                     }
                                     boolean correcto = false;
-                                    for (int i = 0; i < palabra_seleccionada.length(); i++) { // Comprueba que la letra
-                                                                                              // introducida
-                                                                                              // este
-                                                                                              // la palabra en caso de
-                                                                                              // no estar
-                                        if ((palabra_seleccionada.charAt(i) + "").equals(letra)) {
-                                            correcto = true; // correcto seria true y entonces el contador de los
-                                                             // intentos restantes
-                                                             // sumaria 1
+                                    if (valido) {
+                                        for (int i = 0; i < palabra_seleccionada.length(); i++) { // Comprueba que
+                                                                                                  // la
+                                                                                                  // letra
+                                            // introducida
+                                            // este
+                                            // la palabra en caso de
+                                            // no estar
+
+                                            if ((palabra_seleccionada.charAt(i) + "").equals(letra)) {
+                                                correcto = true; // correcto seria true y entonces el contador de
+                                                                 // los
+                                                // intentos restantes
+                                                // sumaria 1
+                                            }
+                                        }
+                                        if (!correcto) {
+                                            contador++;
                                         }
                                     }
 
-                                    if (!correcto) {
-                                        contador++;
-                                    }
-
                                     int acierto = 0;
-                                    for (int i = 0; i < palabra_seleccionada.length(); i++) { // Comprueba en el array
+                                    for (int i = 0; i < palabra_seleccionada.length(); i++) { // Comprueba en el
+                                                                                              // array
                                                                                               // de las letras
                                                                                               // que
-                                                                                              // seleccionamos con la
+                                                                                              // seleccionamos con
+                                                                                              // la
                                                                                               // palabra
                                                                                               // seleccionada
                                         if (array_letras.contains(palabra_seleccionada.charAt(i) + "")) {
@@ -120,15 +172,15 @@ public class ahorcado {
                                         }
                                     }
 
-                                    if (acierto == palabra_seleccionada.length() - 1) { // En caso de los aciertos sean
-                                                                                        // iguales a la
-                                                                                        // longitud de la palabra
-                                                                                        // seleccionada
-                                                                                        // entonces
-                                                                                        // habremos ganado
+                                    if (acierto == palabra_seleccionada.length()) { // En caso de los aciertos
+                                                                                    // sean
+                                                                                    // iguales a la
+                                                                                    // longitud de la palabra
+                                                                                    // seleccionada
+                                                                                    // entonces
+                                                                                    // habremos ganado
                                         contador = 8;
                                     }
-                                    array_letras.add(letra);
 
                                 } else {
                                     System.out.println("Debe introducir una letra del abecedario");
@@ -141,6 +193,7 @@ public class ahorcado {
                                 if (palabra_adivinar.equals(palabra_seleccionada)) {
                                     System.out.println("Ganaste la palabra era " + palabra_seleccionada);
 
+                                    valido = true;
                                     contador = 8;
                                 } else {
                                     contador++;
@@ -158,7 +211,7 @@ public class ahorcado {
                                     jugador.ganar_partida();
                                 }
                             }
-                        } else if (contador == 7) {
+                        } else if (contador == 6) {
                             System.out.println("La palabra era: " + palabra_seleccionada);
                             for (Jugador jugador : array_jugadores) {
                                 if (jugador.getNombre().equals(nombre)) {
@@ -170,13 +223,14 @@ public class ahorcado {
                             mostrar_palabra(palabra_seleccionada, array_letras, primera_vez);
                         }
 
-                    } while (contador < 7);
+                    } while (contador < 6);
+
                 } else {
                     System.out.println("Debe crear un usuario");
                 }
 
             }
-            if (n == 1) {
+            if (opcion == 1) {
                 usuario_creado = true;
                 System.out.println("Nombre");
                 nombre = s.next();
@@ -218,7 +272,7 @@ public class ahorcado {
                             valido = true;
 
                             boolean input_valido = false;
-                            n = 0;
+                            int n = 0;
                             while (!input_valido) {
 
                                 try { // Con esto consigo de que al usuario no le de error cuando se equivoque
@@ -240,32 +294,39 @@ public class ahorcado {
                             if (n == 1) {
                                 System.out.println("Letra:");
                                 letra = s.next();
-
+                                letra = letra.charAt(0) + "";
+                                letra = letra.toLowerCase();
+                                if (letra.length() > 1) { // En caso de introducir mas de una letra debera volver a
+                                                          // intertarlo
+                                    System.out.println("Hemos cogido la primera letra de la frase");
+                                }
                                 if (letras_abecedario.contains(letra)) {
-                                    if (letra.length() > 1) { // En caso de introducir mas de una letra debera volver a
-                                                              // intertarlo
-                                        valido = false;
-                                        System.out.println("Debe de introducir una letra");
-                                    }
+
                                     if (array_letras.contains(letra)) { // En caso de repetir letras
                                         valido = false;
                                         System.out.println("No se puede repetir letras");
+                                    } else {
+                                        array_letras.add(letra);
+
                                     }
                                     boolean correcto = false;
-                                    for (int i = 0; i < palabra_seleccionada.length(); i++) { // Comprueba que la letra
-                                                                                              // introducida
-                                                                                              // este
-                                                                                              // la palabra en caso de
-                                                                                              // no estar
-                                        if ((palabra_seleccionada.charAt(i) + "").equals(letra)) {
-                                            correcto = true; // correcto seria true y entonces el contador de los
-                                                             // intentos restantes
-                                                             // sumaria 1
-                                        }
-                                    }
+                                    if (valido) {
+                                        for (int i = 0; i < palabra_seleccionada.length(); i++) { // Comprueba que la
+                                                                                                  // letra
+                                            // introducida
+                                            // este
+                                            // la palabra en caso de
+                                            // no estar
 
-                                    if (!correcto) {
-                                        contador++;
+                                            if ((palabra_seleccionada.charAt(i) + "").equals(letra)) {
+                                                correcto = true; // correcto seria true y entonces el contador de los
+                                                // intentos restantes
+                                                // sumaria 1
+                                            }
+                                        }
+                                        if (!correcto) {
+                                            contador++;
+                                        }
                                     }
 
                                     int acierto = 0;
@@ -283,15 +344,14 @@ public class ahorcado {
                                         }
                                     }
 
-                                    if (acierto == palabra_seleccionada.length() - 1) { // En caso de los aciertos sean
-                                                                                        // iguales a la
-                                                                                        // longitud de la palabra
-                                                                                        // seleccionada
-                                                                                        // entonces
-                                                                                        // habremos ganado
+                                    if (acierto == palabra_seleccionada.length()) { // En caso de los aciertos sean
+                                                                                    // iguales a la
+                                                                                    // longitud de la palabra
+                                                                                    // seleccionada
+                                                                                    // entonces
+                                                                                    // habremos ganado
                                         contador = 8;
                                     }
-                                    array_letras.add(letra);
 
                                 } else {
                                     System.out.println("Debe introducir una letra del abecedario");
@@ -322,7 +382,7 @@ public class ahorcado {
                                     jugador.ganar_partida();
                                 }
                             }
-                        } else if (contador == 7) {
+                        } else if (contador == 6) {
                             System.out.println("La palabra era: " + palabra_seleccionada);
                             for (Jugador jugador : array_jugadores) {
                                 if (jugador.getNombre().equals(nombre)) {
@@ -334,23 +394,78 @@ public class ahorcado {
                             mostrar_palabra(palabra_seleccionada, array_letras, primera_vez);
                         }
 
-                    } while (contador < 7);
+                    } while (contador < 6);
 
                 }
 
-            } else if (n == 2) {
+            } else if (opcion == 2) {
                 Thread.sleep(1000);
 
                 System.out.println("Entrando a las estadísticas...");
                 System.out.println(
                         "Entre todos los jugadores se han jugado: " + Jugador.getNumero_veces_jugadas_global()
                                 + " partidas");
-                for (Jugador jugador : array_jugadores) {
 
-                    System.out.println(jugador.toString());
+                boolean salir_stats = false;
+                int respuesta = 0;
+                do {
+                    if (respuesta != 3) {
+                        for (Jugador jugador : array_jugadores) {
 
-                }
-            } else if (n == 3) {
+                            System.out.println(jugador.toString());
+
+                        }
+                    }
+
+                    System.out.println(
+                            "1.Ordenar por nombre 2.Ordenar por partidas ganadas 3.Imprimir estadísticas 4.Salir");
+                    respuesta = s.nextInt();
+                    if (respuesta == 1) {
+                        Collections.sort(array_jugadores, Jugador.comparadorPorNombre());
+                    } else if (respuesta == 2) {
+                        Collections.sort(array_jugadores, Jugador.comparadorPorPartidasGanadas());
+                    } else if (respuesta == 3) {
+                        for (Jugador jugador : array_jugadores) {
+
+                            System.out.println(jugador.toString());
+
+                        }
+                        System.out.println("Copiando...");
+                        Thread.sleep(1000);
+                        System.out.println("Lista copiada con exito");
+                        try {
+                            BufferedWriter bw = new BufferedWriter(new FileWriter("Estadísticas.txt", true));
+                            bw.write("\n");
+                            LocalDateTime fecha = LocalDateTime.now();
+                            DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+                            String fechaFormateada = fecha.format(formateador);
+                            bw.write("\n");
+                            String sFecha = "Fecha: " + fechaFormateada;
+                            bw.write(sFecha);
+                            bw.write("\n");
+                            for (Jugador jugador : array_jugadores) {
+
+                                bw.write(jugador.toString());
+                                bw.write("\n");
+
+                            }
+                            bw.write("=======================================================");
+
+                            bw.write("\n");
+
+                            bw.close();
+                        } catch (IOException ioe) {
+                            ioe.printStackTrace();
+
+                        }
+
+                    } else if (respuesta == 4) {
+                        salir_stats = true;
+                    }
+                } while (!salir_stats);
+
+            } else if (opcion == 3) {
                 salir = true;
                 System.out.println("Saliendo");
                 Thread.sleep(1000);
@@ -412,9 +527,6 @@ public class ahorcado {
                 break;
             case 6:
                 intento6();
-                break;
-            case 7:
-                intento7();
                 break;
 
             default:
@@ -500,22 +612,11 @@ public class ahorcado {
         System.out.println(" |  |");
         System.out.println(" O  |");
         System.out.println("/|\\ |");
-        System.out.println("/   |");
-        System.out.println("    |");
-        System.out.println("=========");
-    }
-
-    public static void intento7() {
-        System.out.println();
-
-        System.out.println(" +--+");
-        System.out.println(" |  |");
-        System.out.println(" O  |");
-        System.out.println("/|\\ |");
         System.out.println("/ \\ |");
         System.out.println("    |");
         System.out.println("=========");
     }
+
 }
 
 enum Sexo {
@@ -523,6 +624,15 @@ enum Sexo {
 }
 
 class Jugador extends Juego {
+    public static Comparator<Jugador> comparadorPorNombre() {
+        return Comparator.comparing(Jugador::getNombre);
+
+    }
+
+    public static Comparator<Jugador> comparadorPorPartidasGanadas() {
+        return Comparator.comparing(Jugador::getNumero_veces_ganadas).reversed();
+
+    }
 
     private String nombre;
     private int edad;
@@ -567,7 +677,17 @@ class Jugador extends Juego {
 
 }
 
-class Juego {
+interface metodos_juegos {
+    void ganar_partida();
+
+    void perder_partida();
+
+    void jugar_partida();
+
+}
+
+class Juego implements metodos_juegos {
+
     private static int numero_veces_jugadas_global;
 
     private int numero_veces_jugadas_jugador;
@@ -586,7 +706,7 @@ class Juego {
     }
 
     public void perder_partida() {
-        numero_veces_ganadas = numero_veces_ganadas - 1;
+        numero_veces_perdidas = numero_veces_perdidas + 1;
         jugar_partida();
 
     }
